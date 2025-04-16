@@ -17,6 +17,13 @@ public class GameStateManager : MonoBehaviour
     public int sheepDroppedBeforeGameOver; // 4
     public SheepSpawner sheepSpawner; // 5
 
+    private int currentSpawnLevel = 0;
+
+    public float spawnIntervalLevel1 = 1.5f;
+    public float spawnIntervalLevel2 = 1.0f;
+    public float spawnIntervalLevel3 = 0.7f;
+
+
     void Awake()
     {
         Instance = this;
@@ -31,7 +38,32 @@ public class GameStateManager : MonoBehaviour
             SceneManager.LoadScene("Title");
         }
 
+        UpdateSpawnRate();
+
     }
+
+    private void UpdateSpawnRate()
+    {
+        int saved = sheepSaved;
+
+        if (saved >= 10 && currentSpawnLevel < 1)
+        {
+            sheepSpawner.UpdateSpawnInterval(spawnIntervalLevel1);
+            currentSpawnLevel = 1;
+        }
+        else if (saved >= 20 && currentSpawnLevel < 2)
+        {
+            sheepSpawner.UpdateSpawnInterval(spawnIntervalLevel2);
+            currentSpawnLevel = 2;
+        }
+        else if (saved >= 30 && currentSpawnLevel < 3)
+        {
+            sheepSpawner.UpdateSpawnInterval(spawnIntervalLevel3);
+            currentSpawnLevel = 3;
+        }
+    }
+
+
     public void SavedSheep()
     {
         sheepSaved++;

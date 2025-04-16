@@ -10,9 +10,15 @@ public class HayMachine : MonoBehaviour
     private float shootTimer; 
     public float movementSpeed;
     public float horizontalBoundary = 22;
-    public Transform modelParent; 
+    public Transform modelParent;
 
-    
+    private int currentShootLevel = 0; // Tracks how many times we've increased rate
+
+    public float shootIntervalLevel1 = 0.75f;
+    public float shootIntervalLevel2 = 0.5f;
+    public float shootIntervalLevel3 = 0.35f;
+
+
     public GameObject blueModelPrefab;
     public GameObject yellowModelPrefab;
     public GameObject redModelPrefab;
@@ -49,6 +55,7 @@ public class HayMachine : MonoBehaviour
     {
         UpdateMovement();
         UpdateShooting();
+        UpdateShootingRate();
     }
     private void UpdateMovement()
     {
@@ -73,10 +80,31 @@ public class HayMachine : MonoBehaviour
     {
         shootTimer -= Time.deltaTime; 
 
-        if (shootTimer <= 0 && Input.GetKey(KeyCode.Space)) 
+        if (shootTimer <= 0 && Input.GetKeyDown(KeyCode.Space)) 
         {
             shootTimer = shootInterval; 
             ShootHay(); 
+        }
+    }
+
+    private void UpdateShootingRate()
+    {
+        int saved = GameStateManager.Instance.sheepSaved;
+
+        if (saved >= 5 && currentShootLevel < 1)
+        {
+            shootInterval = shootIntervalLevel1;
+            currentShootLevel = 1;
+        }
+        else if (saved >= 10 && currentShootLevel < 2)
+        {
+            shootInterval = shootIntervalLevel2;
+            currentShootLevel = 2;
+        }
+        else if (saved >= 15 && currentShootLevel < 3)
+        {
+            shootInterval = shootIntervalLevel3;
+            currentShootLevel = 3;
         }
     }
 
