@@ -10,4 +10,5 @@ Completed all part 2 in advance and added extra features to compensate for the u
 -Added game title screens (part 2)
 
 Added "levels", when a certain score (sheep hit) is reached, the sheep spawn rate increases as well as the
-shooting rate. *Also limited the possibility of being able to hold down the trigger to keep shooting endlessly
+shooting rate. 
+*Also limited the possibility of being able to hold down the trigger to keep shooting endlessly
